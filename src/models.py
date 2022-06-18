@@ -8,23 +8,39 @@ from eralchemy import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
+class Usuario (Base):
+    __tablename__ = 'Usuario'
+    id = Column(Integer, primary_key= True)
+    nombre = Column (String(50))
+    Apellido = Column (String(50))
+    Tlf = Column(Integer)
+    e_mail = Column (String (50))
+class Publicaciones (Base):
+    __tablename__ = "Publicaciones"
+    id = Column (Integer, primary_key=True)
+    ubicación = Column (String(50))
+    reseña = Column (String, ForeignKey("Usuario"))
+    comentarios = Column (String, ForeignKey("Seguidores"))
+    id_Seguidores = Column (String(50))
+class Otras_Redes (Base):
+    __tablename__= "Redes Sociales"
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    twitter = Column (String)
+    Facebook = Column (String, ForeignKey("Publicaciones"))
+    Tumblr = Column (String)
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+class Seguidores (Base):
+    __tablename__ = "Seguidores"
+    id = Column (Integer, primary_key=True)
+    id_user = Column (String)
+    name = Column (String(50), ForeignKey("Usuario"))
+
+class Siguiendo (Base):
+    __tablename__ = "Siguiendo"
+    id = Column (Integer, primary_key=True)
+    id_users = Column (String(50), ForeignKey("Usuario"))
+    
+
 
     def to_dict(self):
         return {}
